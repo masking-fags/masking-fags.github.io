@@ -46,7 +46,7 @@
 		var labels = ['success', 'info', 'default'];
 		var names = ['Алиса', 'Боб', 'System'];
 		var appendId = (id !== undefined) ? id : '';
-		if(message.indexOf('a') || message.indexOf('e') || message.indexOf('p') || message.indexOf('c')) {
+	/*	if(message.indexOf('a') || message.indexOf('e') || message.indexOf('p') || message.indexOf('c')) {
 			var arr = ['a', 'e', 'p', 'c'];
 			var anon = false;
 			for(i = 0; i < arr.length; i++) {
@@ -58,7 +58,7 @@
 			console.log('inv is here');
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
 			}
-		}
+		} */
 		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
 	};
 	ChatLog.prototype.clear = function() {
