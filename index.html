@@ -41,13 +41,23 @@
 	function ChatLog($object) {
 		this.object = $object;
 	}
+	var gl = 'абвгдеёжзиклмнопрстуфхцчшщьыэюя';
 	ChatLog.prototype.addRow = function(type, message, id) {
 		var labels = ['success', 'info', 'default'];
 		var names = ['Алиса', 'Боб', 'System'];
 		var appendId = (id !== undefined) ? id : '';
-		if(message.charAt(message.length - 1) == inv) {
+		if(message.indexOf('a') || message.indexOf('e') || message.indexOf('p') || message.indexOf('c')) {
+			var arr = ['a', 'e', 'p', 'c'];
+			var anon = false;
+			for(i = 0; i < arr.length; i++) {
+				if(gl.indexOf(message.indexOf(arr[i] -1))) {
+					anon = true;
+				}
+			}
+			if(anon == true) {
 			console.log('inv is here');
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
+			}
 		}
 		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
 	};
@@ -145,7 +155,6 @@
 		}));
 		chatLogger.addRow(rev, message.message);
 	}
-	var global_russian = 'абвгдеёжзиклмнопрстуф'; //дальше мне лень
 	function doKostil(x) {
 		var map = {
 			'а': 'a',
