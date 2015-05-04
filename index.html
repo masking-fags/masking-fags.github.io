@@ -89,6 +89,8 @@ document.getElementsByTagName("head")[0].appendChild(s);
 				}
 			break;
 			case 'message_from_user':
+	      var elem = document.getElementById('chatlog');
+              elem.scrollTop = elem.scrollHeight;
 				if(message.chat == chats[0] || message.chat == chats[1]) {
 					console.log(message);
 					if (message.sender == "someone") {
@@ -244,10 +246,6 @@ document.getElementsByTagName("head")[0].appendChild(s);
 	    }
 	});
 
-	window.setInterval(function() {
-  var elem = document.getElementById('chatlog');
-  elem.scrollTop = elem.scrollHeight;
-}, 100);
    //крысакун идёт нахуй
   if(typeof document.referrer !== 'undefined') {
      if(document.referrer !== '') {
