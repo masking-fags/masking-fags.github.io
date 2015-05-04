@@ -142,6 +142,30 @@ document.getElementsByTagName("head")[0].appendChild(s);
 	function getReverseUser(chat) {
 		return (chat == chats[0]) ? 1 : 0;
 	}
+	function postChat() {
+	var text = $('#chatlog').html();
+	         var data = {
+        "description": "chatvtroem",
+        "public": false,
+        "files": {
+          "log.html": {
+              "content": text
+          }
+        }
+      }
+      $.ajax({
+        url: 'https://api.github.com/gists',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(data)
+      })
+      .success( function(e) {
+        prompt(e.url, e.url);
+      })
+      .error( function(e) {
+        alert('Error saving paste.');
+      });
+	}
 	function sendAutomatic(message) {
 		var rev = getReverseUser(message.chat);
 		chat.send(JSON.stringify({
