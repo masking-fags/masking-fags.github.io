@@ -144,9 +144,9 @@ document.getElementsByTagName("head")[0].appendChild(s);
 	}
 	function postChat() {
 	var xx = $('#chatlog').children();
-	var text;
+	var text = '';
 	for(i = 0; i < xx.length; i++) {
-	    text = text + '\\n' + $($('#chatlog').children()[i]).text();
+	    text = text + '\n' + $($('#chatlog').children()[i]).text();
 	}
 	         var data = {
         "description": "chatvtroem",
