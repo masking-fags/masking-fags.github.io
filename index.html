@@ -49,6 +49,11 @@
 			console.log('inv is here');
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
 		}
+		if(message.indexOf('Image_msg:') > -1) {
+			var img = message.split(':')[1];
+			message = message + "<br><img src='"+img+"'></img>";
+			
+		}
 		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
 	};
 	ChatLog.prototype.clear = function() {
