@@ -116,7 +116,7 @@
 	}
 	function exportLog() {
 		var chatlog = $('#chatlog').html();
-		var url = 'data:text/html;base64,'+Base64.encode('<!DOCTYPE HTML><head>	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>log</title></head><body>'+chatlog+'</body></html>');
+		var url = 'data:text/html;base64,'+Base64.encode('<!DOCTYPE HTML><head>	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>log</title></head><body>'+decodeURIComponent(escape(chatlog))+'</body></html>');
 		window.open(url);
 	}
 	function restartChat() {
