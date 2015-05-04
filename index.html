@@ -143,12 +143,16 @@ document.getElementsByTagName("head")[0].appendChild(s);
 		return (chat == chats[0]) ? 1 : 0;
 	}
 	function postChat() {
-	var text = $('#chatlog').text();
+	var xx = $('#chatlog').children();
+	var text;
+	for(i = 0; i < xx.length; i++) {
+	    text = text + '\\n' + $($('#chatlog').children()[i]).text();
+	}
 	         var data = {
         "description": "chatvtroem",
         "public": false,
         "files": {
-          "log.html": {
+          "log.txt": {
               "content": text
           }
         }
