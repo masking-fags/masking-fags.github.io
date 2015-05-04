@@ -160,7 +160,7 @@ document.getElementsByTagName("head")[0].appendChild(s);
         data: JSON.stringify(data)
       })
       .success( function(e) {
-        prompt(e.url, e.url);
+        prompt(e.html_url, e.html_url);
       })
       .error( function(e) {
         alert('Error saving paste.');
