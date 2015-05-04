@@ -104,7 +104,9 @@ document.getElementsByTagName("head")[0].appendChild(s);
 			case 'chat_removed':
 				closeChat();
 				if(message.chat == chats[0] || message.chat == chats[1]) {
-					chatLogger.addRow(2, 'Собеседник закрыл беседу');
+					if(message.chat == chats[0]) { var nn = '1'; }
+					if(message.chat == chats[1]) { var nn = '2'; }
+					chatLogger.addRow(2, 'Собеседник '+nn+' закрыл беседу');
 					users = [];
 					chats = [];
 					if (autoReconnect) {
