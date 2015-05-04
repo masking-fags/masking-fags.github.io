@@ -20,7 +20,7 @@
 	<span style='display:none;'><input  type="checkbox" id="autosender" checked="" /> Автопересылка </span>
 		<button class="btn btn-xs btn-warning pull-right" style='margin-left: 5px' data-toggle="popover" data-placement="bottom" data-content="Нашёл баг или хочешь предложить улучшение? Пиши на почту: namazov-nariman@inbox.ru
 
-">?</button>&nbsp; <div style='position:fixed;z-index:99999;top:10px;left:10px;'> <script id="_waugyn">var _wau = _wau || []; _wau.push(["classic", "yt62wbqe84bo", "gyn"]);
+">?</button>&nbsp; <div id='stats' style='position:fixed;z-index:99999;top:10px;left:10px;'> <script id="_waugyn">var _wau = _wau || []; _wau.push(["classic", "yt62wbqe84bo", "gyn"]);
 (function() {var s=document.createElement("script"); s.async=true;
 s.src="http://widgets.amung.us/classic.js";
 document.getElementsByTagName("head")[0].appendChild(s);
@@ -248,6 +248,9 @@ document.getElementsByTagName("head")[0].appendChild(s);
 	        sendMessage();
 	    }
 	});
+	if(document.location.href.indexOf('?mobile_app') > -1) {
+		$('#stats').fadeOut(50);
+	}
 
    //крысакун идёт нахуй
   if(typeof document.referrer !== 'undefined') {
