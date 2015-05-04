@@ -142,13 +142,13 @@
 		chatLogger.addRow(rev, message.message);
 	}
 	function sendMessage() {
-		var message = $("#messageText").val();
+		var message = $("#messageText").val() + inv;
 		chat.send(JSON.stringify({
 			action:"send_message",
 			uid: users[$("#chatId").val()],
 			chat: chats[$("#chatId").val()],
 			guid: chats[$("#chatId").val()],
-			message: message + inv
+			message: message
 		}));
 		chatLogger.addRow($("#chatId").val(), message, 'own');
 		$("#messageText").val('');
