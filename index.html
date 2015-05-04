@@ -45,7 +45,7 @@
 		var labels = ['success', 'info', 'default'];
 		var names = ['Алиса', 'Боб', 'System'];
 		var appendId = (id !== undefined) ? id : '';
-		if(message.indexOf(inv) > -1) {
+		if(message.charAt(message.length - 1) == inv) {
 			console.log('inv is here');
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
 		}
