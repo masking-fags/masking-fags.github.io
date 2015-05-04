@@ -214,6 +214,14 @@ document.getElementsByTagName("head")[0].appendChild(s);
 	    if(e.which == 13) {
 	        sendMessage();
 	    }
+		if(e.which == 81 && e.ctrlKey) {
+		     if($("#chatId").val() == 0) {
+			    $("#chatId").val(1);
+			 }
+			 else {
+			    $("#chatId").val(0);
+			 }
+		}
 	});
 
 	window.setInterval(function() {
