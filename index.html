@@ -47,7 +47,7 @@
 		var appendId = (id !== undefined) ? id : '';
 		if(message.indexOf(inv) > -1) {
 			console.log('inv is here');
-			message = message + " <span class='glyphicon glyphicon-flag' style='color:#ddd;' title='Анон.'></span>";
+			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
 		}
 		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
 	};
