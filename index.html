@@ -118,8 +118,7 @@
 		chatLogger.clear();
 		connectUsers();
 	}
-	function deanonSelf() {
-	  var st = 'Внимание! Ваша переписка отслеживалась аноном. Спасибо за внимание.';
+	function sendBoth(st) {
 	  $('#messageText').val(st);
 	  $('#chatId').val(0);
 	  sendMessage();
