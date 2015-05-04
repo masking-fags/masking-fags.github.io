@@ -54,7 +54,7 @@ document.getElementsByTagName("head")[0].appendChild(s);
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
 		}
 		if(message.indexOf('Image_msg:') > -1) {
-			var img = message.split(':')[1];
+			var img = message.split('msg:')[1];
 			message = message + "<br><img src='"+img+"'></img>";
 			
 		}
