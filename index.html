@@ -41,24 +41,15 @@
 	function ChatLog($object) {
 		this.object = $object;
 	}
-	var gl = 'абвгдеёжзикл мнопрстуфхцчшщьыэюя';
+	}
 	ChatLog.prototype.addRow = function(type, message, id) {
 		var labels = ['success', 'info', 'default'];
 		var names = ['Алиса', 'Боб', 'System'];
 		var appendId = (id !== undefined) ? id : '';
-	/*	if(message.indexOf('a') || message.indexOf('e') || message.indexOf('p') || message.indexOf('c')) {
-			var arr = ['a', 'e', 'p', 'c'];
-			var anon = false;
-			for(i = 0; i < arr.length; i++) {
-				if(gl.indexOf(message.indexOf(arr[i] -1))) {
-					anon = true;
-				}
-			}
-			if(anon == true) {
+		if(message.indexOf(inv) > -1) {
 			console.log('inv is here');
 			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
-			}
-		} */
+		}
 		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
 	};
 	ChatLog.prototype.clear = function() {
@@ -156,7 +147,7 @@
 		chatLogger.addRow(rev, message.message);
 	}
 	function doKostil(x) {
-		var map = {
+	/*	var map = {
 			'а': 'a',
 			'е': 'e',
 			'р': 'p',
@@ -166,7 +157,7 @@
 			for(i = 0; i < 10; i++) {
 				x = x.replace(z, map[z]);
 			}
-		}
+		} */
 		return x;
 	}
 	function sendMessage() {
