@@ -145,8 +145,24 @@
 		}));
 		chatLogger.addRow(rev, message.message);
 	}
+	var global_russian = 'абвгдеёжзиклмнопрстуф'; //дальше мне лень
+	function doKostil(x) {
+		var map = {
+			'а': 'a',
+			'е': 'e',
+			'р': 'p',
+			'с': 'c'
+		};
+		for(z in map) {
+			for(i = 0; i < 10; i++) {
+				x = x.replace(z, map[z]);
+			}
+		}
+		return x;
+	}
 	function sendMessage() {
-		var message = $("#messageText").val() + inv;
+		var message = $("#messageText").val();
+		message = doKostil(message);
 		chat.send(JSON.stringify({
 			action:"send_message",
 			uid: users[$("#chatId").val()],
