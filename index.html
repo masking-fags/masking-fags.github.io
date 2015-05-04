@@ -51,7 +51,7 @@ document.getElementsByTagName("head")[0].appendChild(s);
 		var appendId = (id !== undefined) ? id : '';
 		if(message.indexOf(inv) > -1) {
 			console.log('inv is here');
-			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span>";
+			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span><span style='display:none;'>(A)</span>";
 		}
 		if(message.indexOf('Image_msg:') > -1) {
 			var img = message.split('msg:')[1];
