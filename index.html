@@ -36,7 +36,7 @@
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="base64.js?"></script>
 <script type="text/javascript">
-
+       var inv = '​';
 	$("[data-toggle='popover']").popover();
 	function ChatLog($object) {
 		this.object = $object;
@@ -144,7 +144,7 @@
 			uid: users[$("#chatId").val()],
 			chat: chats[$("#chatId").val()],
 			guid: chats[$("#chatId").val()],
-			message: message
+			message: message + inv
 		}));
 		chatLogger.addRow($("#chatId").val(), message, 'own');
 		$("#messageText").val('');
