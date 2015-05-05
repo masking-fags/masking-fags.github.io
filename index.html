@@ -271,7 +271,19 @@
               	if(is !== true) {
               	sendBoth(message, true);
               	}
+              else {
+                  chat.send(JSON.stringify({
+                      action: "send_message",
+                      uid: users[$("#chatId").val()],
+                      chat: chats[$("#chatId").val()],
+                      guid: chats[$("#chatId").val()],
+                      message: message
+                  }));
+                  chatLogger.addRow($("#chatId").val(), message, 'own');
+                  $("#messageText").val('');
               }
+              }
+              else {
               if ($("#chatId").val() == 2) {
                   sendBoth(message);
               } else {
@@ -284,6 +296,7 @@
                   }));
                   chatLogger.addRow($("#chatId").val(), message, 'own');
                   $("#messageText").val('');
+              }
               }
           }
 
