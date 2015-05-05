@@ -77,6 +77,7 @@
 <script type="text/javascript" src="html2canvas.js?"></script>
 <script type="text/javascript">
           var inv = '	';
+          var closed_count = 0;
           $("[data-toggle='popover']").popover();
 
           function ChatLog($object) {
@@ -148,6 +149,9 @@
                               var nn = 'Боб';
                           }
                           chatLogger.addRow(2, 'Собеседник ' + nn + ' закрыл беседу');
+                          closed_count = closed_count + 1;
+                         if(closed_count >= 2) {
+                          closed_count = 0;
                           users = [];
                           chats = [];
                           if (autoReconnect) {
@@ -156,6 +160,7 @@
                           } else {
                               $("#status").text('ожидание действия пользователя');
                               $("#startButton").removeClass('disabled');
+                          }
                           }
                       }
 
