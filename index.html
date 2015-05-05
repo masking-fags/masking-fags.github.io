@@ -150,6 +150,7 @@
                           }
                           chatLogger.addRow(2, 'Собеседник ' + nn + ' закрыл беседу');
                           closed_count = closed_count + 1;
+                         if(nn == 'Боб') { chats = [chats[1]]; } else { chats = [chats[0]]; }
                          if(closed_count >= 2) {
                           closed_count = 0;
                           users = [];
