@@ -140,7 +140,6 @@
                       }
                       break;
                   case 'chat_removed':
-                      closeChat();
                       if (message.chat == chats[0] || message.chat == chats[1]) {
                           if (message.chat == chats[1]) {
                               var nn = 'Алиса';
@@ -153,6 +152,7 @@
                          if(nn == 'Боб') { chats = [chats[1]]; } else { chats = [chats[0]]; }
                          if(closed_count >= 2) {
                           closed_count = 0;
+                          closeChat();
                           users = [];
                           chats = [];
                           if (autoReconnect) {
