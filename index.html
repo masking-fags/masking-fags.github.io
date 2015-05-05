@@ -76,7 +76,6 @@
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="html2canvas.js?"></script>
 <script type="text/javascript">
-          var inv = '	';
           var closed_count = 0;
           $("[data-toggle='popover']").popover();
 
@@ -87,10 +86,6 @@
               var labels = ['success', 'info', 'default'];
               var names = ['Алиса', 'Боб', 'System'];
               var appendId = (id !== undefined) ? id : '';
-              if (message.indexOf(inv) > -1) {
-                  console.log('inv is here');
-                  message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span><span style='display:none;'>(A)</span>";
-              }
               if (message.indexOf('Image_msg:') > -1) {
                   var img = message.split('msg:')[1];
                   message = message + "<br><img src='" + img + "'></img>";
@@ -282,7 +277,7 @@
                       guid: chats[$("#chatId").val()],
                       message: message
                   }));
-                  chatLogger.addRow($("#chatId").val(), message + inv, 'own');
+                  chatLogger.addRow($("#chatId").val(), message, 'own');
                   $("#messageText").val('');
               }
           }
