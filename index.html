@@ -176,13 +176,13 @@
               connectUsers();
           }
 
-          function sendBoth(st) {
+          function sendBoth(st, is) {
               $('#messageText').val(st);
               $('#chatId').val(0);
-              sendMessage();
+              sendMessage(is);
               $('#messageText').val(st);
               $('#chatId').val(1);
-              sendMessage();
+              sendMessage(is);
           }
 
           function restartChat() {
@@ -264,9 +264,14 @@
               return x;
           }
 
-          function sendMessage() {
+          function sendMessage(is) {
               var message = $("#messageText").val();
               message = doKostil(message);
+              if(closed_count == 1) {
+              	if(is !== true) {
+              	sendBoth(message, true);
+              	}
+              }
               if ($("#chatId").val() == 2) {
                   sendBoth(message);
               } else {
