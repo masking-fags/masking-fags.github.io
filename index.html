@@ -24,11 +24,27 @@
 		max-width:500px;
 		height:auto;
 	}
+	.screenFadeCross {
+		position:fixed;
+		z-index:999999;
+		right:20px;
+		top:20px;
+		color:#eee;
+	}
+	.screenFadeDesc {
+		color:white;
+		font-size:25px;
+		position:fixed;
+		z-index:999999;
+		top:10px;
+		left:10px;
+	}
 	</style>
 </head>
 <body>
 	<div align='center' id='screenFade'>
-		<p style="color:white;position:fixed;z-index:999999;top:10px;left:10px;">Сохраняй скорее через ПКМ!</p>
+		<p id='screenFadeDesc'>ПКМ -> Сохранить как..</p>
+		<span class='screenFadeCross glyphicon glyphicon-remove'></span>
 		<img id='screenImage'  onclick='$("#screenFade").fadeOut(500);'></img>
 	</div>
 	<div class="container">
