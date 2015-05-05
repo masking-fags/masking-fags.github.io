@@ -44,6 +44,7 @@
 		top:10px;
 		left:10px;
 	}
+	#title { color: #ff6600; }
 	</style>
 </head>
 <body>
@@ -53,7 +54,7 @@
 		<img id='screenImage'  onclick='$("#screenFade").fadeOut(500);'></img>
 	</div>
 	<div class="container">
-		<h3>ЧатВтроем <small id="subtitle">сам себе КГБ</small></h3>
+		<h3 id='title'>ЧатВтроем <small id="subtitle">сам себе КГБ</small></h3>
 		<button id="startButton" class="btn btn-success" onclick='startChat()'>Запустить</button>
 		<button class="btn btn-warning" onclick='restartChat()' style='margin-left: 5px'>Рестарт</button>
 		<button class="btn btn-info" onclick='postChat()' style='margin-left: 5px'>Лог</button>
