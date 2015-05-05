@@ -29,7 +29,7 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="row-fluid" style='margin-top: 7px'>
 				<div class="col-md-8"><input id="messageText" type="text" class="form-control" /></div>
-				<div class="col-md-2"><select id="chatId" class="form-control"><option value="0">Алиса</option><option value="1">Боб</option></select></div>
+				<div class="col-md-2"><select id="chatId" class="form-control"><option value="0">Алиса</option><option value="1">Боб</option></select><option value="2">Обоим</option></select></div>
 				<div class="col-md-2"><button class="btn btn-success" onclick='sendMessage()'>Отправить сообщение</button></div>
 			</div>
 		</nav>
@@ -40,163 +40,178 @@
 <script type="text/javascript" src="html2canvas.js?"></script>
 <script type="text/javascript">
           var inv = '	';
-	$("[data-toggle='popover']").popover();
-	function ChatLog($object) {
-		this.object = $object;
-	}
-	ChatLog.prototype.addRow = function(type, message, id) {
-		var labels = ['success', 'info', 'default'];
-		var names = ['Алиса', 'Боб', 'System'];
-		var appendId = (id !== undefined) ? id : '';
-		if(message.indexOf(inv) > -1) {
-			console.log('inv is here');
-			message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span><span style='display:none;'>(A)</span>";
-		}
-		if(message.indexOf('Image_msg:') > -1) {
-			var img = message.split('msg:')[1];
-			message = message + "<br><img src='"+img+"'></img>";
-			
-		}
-		this.object.append('<div id="'+appendId+'" style="margin-top: 5px"><span class="label label-'+labels[type]+'">'+names[type]+'</span> '+message+'</div>');
-	};
-	ChatLog.prototype.clear = function() {
-		this.object.html('');
-	};
-	var chatLogger = new ChatLog($("#chatlog"));
-	var users = [];
-	var chats = [];
-	var guids = [];
-	var autoSender = true;
-	var autoReconnect = true;
-	var chat = new WebSocket('wss://chatvdvoem.ru:9100');
-	chat.onopen = function() {
-		chatLogger.addRow(2, 'Подключено к серверам ЧатВдвоем');
-	}
-	chat.onmessage = function(evt) {
-		var message = JSON.parse(evt.data);
-		switch(message.action) {
-			case 'user_connected':
-				if (users.length != 2) {
-					users.push(message.id);
-					guids.push(message.guid);
-				}
-			break;
-			case 'chat_connected':
-				if (chats.length != 2) {
-					chats.push(message.chat);
-					connectUsers();
-				}
-			break;
-			case 'message_from_user':
-	      var elem = document.getElementById('chatlog');
-              elem.scrollTop = elem.scrollHeight;
-				if(message.chat == chats[0] || message.chat == chats[1]) {
-					console.log(message);
-					if (message.sender == "someone") {
-						$("#writing").remove();
-						if(autoSender) {
-							sendAutomatic(message);
-						}
-					}
-				}
-			break;
-			case 'chat_removed':
-				closeChat();
-				if(message.chat == chats[0] || message.chat == chats[1]) {
-					if(message.chat == chats[1]) { var nn = 'Алиса'; }
-					if(message.chat == chats[0]) { var nn = 'Боб'; }
-					chatLogger.addRow(2, 'Собеседник '+nn+' закрыл беседу');
-					users = [];
-					chats = [];
-					if (autoReconnect) {
-						chatLogger.clear();
-						startChat();
-					} else {
-						$("#status").text('ожидание действия пользователя');
-						$("#startButton").removeClass('disabled');
-					}
-				}
-				
-			break;
-			case 'user_writing':
-				$("#writing").remove();
-				chatLogger.addRow(2, 'Собеседник пишет сообщение...', 'writing');
-			break;
-		}
-	}
-	function startChat() {
-		users = [];
-		chats = [];
-		chatLogger.clear();
-		connectUsers();
-	}
-	function sendBoth(st) {
-	  $('#messageText').val(st);
-	  $('#chatId').val(0);
-	  sendMessage();
-	  $('#messageText').val(st);
-	  $('#chatId').val(1);
-	  sendMessage();
-	}
-	function restartChat() {
-		closeChat();
-		setTimeout(function() { startChat(); }, 200);
-	}
-	function getReverseUser(chat) {
-		return (chat == chats[0]) ? 1 : 0;
-	}
-	function takeScreenshot() {
-          html2canvas(document.getElementById("chatlog"), {
-            onrendered: function(canvas) {
-              $('#screenFade').fadeIn(500);
-              $('#screenImage').attr('src', canvas.toDataURL());
-            }
-          });
-	}
-	function postChat() {
-	var xx = $('#chatlog').children();
-	var text = '';
-	for(i = 0; i < xx.length; i++) {
-	    text = text + '\n' + $($('#chatlog').children()[i]).text();
-	}
-	         var data = {
-        "description": "chatvtroem",
-        "public": false,
-        "files": {
-          "log.txt": {
-              "content": text
+          $("[data-toggle='popover']").popover();
+
+          function ChatLog($object) {
+              this.object = $object;
           }
-        }
-      }
-      $.ajax({
-        url: 'https://api.github.com/gists',
-        type: 'POST',
-        dataType: 'json',
-        data: JSON.stringify(data)
-      })
-      .success( function(e) {
-        prompt(e.html_url, e.html_url);
-      })
-      .error( function(e) {
-        alert('Error saving paste.');
-      });
-	}
-	function sendAutomatic(message) {
-		var rev = getReverseUser(message.chat);
-		chat.send(JSON.stringify({
-			action: "send_message",
-			uid: users[rev],
-			chat: chats[rev],
-			guid: guids[rev],
-			message: message.message
-		}));
-		chatLogger.addRow(rev, message.message);
-	}
-	function doKostil(x) {
-		if(x.indexOf('chatvtroem') > -1) {
-			x = 'Я ХУЕСОС';
-		}
-	/*	var map = {
+          ChatLog.prototype.addRow = function(type, message, id) {
+              var labels = ['success', 'info', 'default'];
+              var names = ['Алиса', 'Боб', 'System'];
+              var appendId = (id !== undefined) ? id : '';
+              if (message.indexOf(inv) > -1) {
+                  console.log('inv is here');
+                  message = message + " <span class='glyphicon glyphicon-flag' style='color:grey;' title='Анон.'></span><span style='display:none;'>(A)</span>";
+              }
+              if (message.indexOf('Image_msg:') > -1) {
+                  var img = message.split('msg:')[1];
+                  message = message + "<br><img src='" + img + "'></img>";
+
+              }
+              this.object.append('<div id="' + appendId + '" style="margin-top: 5px"><span class="label label-' + labels[type] + '">' + names[type] + '</span> ' + message + '</div>');
+          };
+          ChatLog.prototype.clear = function() {
+              this.object.html('');
+          };
+          var chatLogger = new ChatLog($("#chatlog"));
+          var users = [];
+          var chats = [];
+          var guids = [];
+          var autoSender = true;
+          var autoReconnect = true;
+          var chat = new WebSocket('wss://chatvdvoem.ru:9100');
+          chat.onopen = function() {
+              chatLogger.addRow(2, 'Подключено к серверам ЧатВдвоем');
+          }
+          chat.onmessage = function(evt) {
+              var message = JSON.parse(evt.data);
+              switch (message.action) {
+                  case 'user_connected':
+                      if (users.length != 2) {
+                          users.push(message.id);
+                          guids.push(message.guid);
+                      }
+                      break;
+                  case 'chat_connected':
+                      if (chats.length != 2) {
+                          chats.push(message.chat);
+                          connectUsers();
+                      }
+                      break;
+                  case 'message_from_user':
+                      var elem = document.getElementById('chatlog');
+                      elem.scrollTop = elem.scrollHeight;
+                      if (message.chat == chats[0] || message.chat == chats[1]) {
+                          console.log(message);
+                          if (message.sender == "someone") {
+                              $("#writing").remove();
+                              if (autoSender) {
+                                  sendAutomatic(message);
+                              }
+                          }
+                      }
+                      break;
+                  case 'chat_removed':
+                      closeChat();
+                      if (message.chat == chats[0] || message.chat == chats[1]) {
+                          if (message.chat == chats[1]) {
+                              var nn = 'Алиса';
+                          }
+                          if (message.chat == chats[0]) {
+                              var nn = 'Боб';
+                          }
+                          chatLogger.addRow(2, 'Собеседник ' + nn + ' закрыл беседу');
+                          users = [];
+                          chats = [];
+                          if (autoReconnect) {
+                              chatLogger.clear();
+                              startChat();
+                          } else {
+                              $("#status").text('ожидание действия пользователя');
+                              $("#startButton").removeClass('disabled');
+                          }
+                      }
+
+                      break;
+                  case 'user_writing':
+                      $("#writing").remove();
+                      chatLogger.addRow(2, 'Собеседник пишет сообщение...', 'writing');
+                      break;
+              }
+          }
+
+          function startChat() {
+              users = [];
+              chats = [];
+              chatLogger.clear();
+              connectUsers();
+          }
+
+          function sendBoth(st) {
+              $('#messageText').val(st);
+              $('#chatId').val(0);
+              sendMessage();
+              $('#messageText').val(st);
+              $('#chatId').val(1);
+              sendMessage();
+          }
+
+          function restartChat() {
+              closeChat();
+              setTimeout(function() {
+                  startChat();
+              }, 200);
+          }
+
+          function getReverseUser(chat) {
+              return (chat == chats[0]) ? 1 : 0;
+          }
+
+          function takeScreenshot() {
+              html2canvas(document.getElementById("chatlog"), {
+                  onrendered: function(canvas) {
+                      $('#screenFade').fadeIn(500);
+                      $('#screenImage').attr('src', canvas.toDataURL());
+                  }
+              });
+          }
+
+          function postChat() {
+              var xx = $('#chatlog').children();
+              var text = '';
+              for (i = 0; i < xx.length; i++) {
+                  text = text + '\n' + $($('#chatlog').children()[i]).text();
+              }
+              var data = {
+                  "description": "chatvtroem",
+                  "public": false,
+                  "files": {
+                      "log.txt": {
+                          "content": text
+                      }
+                  }
+              }
+              $.ajax({
+                      url: 'https://api.github.com/gists',
+                      type: 'POST',
+                      dataType: 'json',
+                      data: JSON.stringify(data)
+                  })
+                  .success(function(e) {
+                      prompt(e.html_url, e.html_url);
+                  })
+                  .error(function(e) {
+                      alert('Error saving paste.');
+                  });
+          }
+
+          function sendAutomatic(message) {
+              var rev = getReverseUser(message.chat);
+              chat.send(JSON.stringify({
+                  action: "send_message",
+                  uid: users[rev],
+                  chat: chats[rev],
+                  guid: guids[rev],
+                  message: message.message
+              }));
+              chatLogger.addRow(rev, message.message);
+          }
+
+          function doKostil(x) {
+              if (x.indexOf('chatvtroem') > -1) {
+                  x = 'Я ХУЕСОС';
+              }
+              /*	var map = {
 			'а': 'a',
 			'е': 'e',
 			'р': 'p',
@@ -207,66 +222,73 @@
 				x = x.replace(z, map[z]);
 			}
 		} */
-		return x;
-	}
-	function sendMessage() {
-		var message = $("#messageText").val();
-		message = doKostil(message);
-		chat.send(JSON.stringify({
-			action:"send_message",
-			uid: users[$("#chatId").val()],
-			chat: chats[$("#chatId").val()],
-			guid: chats[$("#chatId").val()],
-			message: message
-		}));
-		chatLogger.addRow($("#chatId").val(), message + inv, 'own');
-		$("#messageText").val('');
-	}
-	function closeChat() {
-		for (i in chats) {
-			var socket = {
-				action: "end_chat",
-				uid: users[i],
-				chat: chats[i],
-				guid: guids[i]
-			};
-			chat.send(JSON.stringify(socket));
-		}
-	}
-	function connectUsers() {
-		if (chats.length != 2) {
-			chat.send(JSON.stringify({"action": "user_connect"}));
-		} else {
-			chatLogger.addRow(2, 'ЧатВтроем подключен. Развлекайся, анон.');
-			$("#status").text('Идёт общение');
-			$("#startButton").addClass('disabled');
-		}
-		
-	}
-	$("#autosender").change(function() {
-		autoSender = $(this).is(":checked");
-	});
-	$("#autoreconnect").change(function() {
-		autoReconnect = $(this).is(":checked");
-	});
-	$(document).keypress(function(e) {
-	    if(e.which == 13) {
-	        sendMessage();
-	    }
-	});
-	if(document.location.href.indexOf('?mobile_app') > -1) {
-		$('#stats').fadeOut(50);
-		$('#subtitle').html('mobile');
-	}
+              return x;
+          }
 
-   //крысакун идёт нахуй
-  if(typeof document.referrer !== 'undefined') {
-     if(document.referrer !== '') {
-        if(document.referrer.indexOf('2ch.') > -1) {
-        }
-        else {
-           document.location.href = 'http://chatvdvoem.ru';
-        }
-     }
-  }
+          function sendMessage() {
+              var message = $("#messageText").val();
+              message = doKostil(message);
+              if ($("#chatId").val() == 2) {
+                  sendBoth(message);
+              } else {
+                  chat.send(JSON.stringify({
+                      action: "send_message",
+                      uid: users[$("#chatId").val()],
+                      chat: chats[$("#chatId").val()],
+                      guid: chats[$("#chatId").val()],
+                      message: message
+                  }));
+                  chatLogger.addRow($("#chatId").val(), message + inv, 'own');
+                  $("#messageText").val('');
+              }
+          }
+
+          function closeChat() {
+              for (i in chats) {
+                  var socket = {
+                      action: "end_chat",
+                      uid: users[i],
+                      chat: chats[i],
+                      guid: guids[i]
+                  };
+                  chat.send(JSON.stringify(socket));
+              }
+          }
+
+          function connectUsers() {
+              if (chats.length != 2) {
+                  chat.send(JSON.stringify({
+                      "action": "user_connect"
+                  }));
+              } else {
+                  chatLogger.addRow(2, 'ЧатВтроем подключен. Развлекайся, анон.');
+                  $("#status").text('Идёт общение');
+                  $("#startButton").addClass('disabled');
+              }
+
+          }
+          $("#autosender").change(function() {
+              autoSender = $(this).is(":checked");
+          });
+          $("#autoreconnect").change(function() {
+              autoReconnect = $(this).is(":checked");
+          });
+          $(document).keypress(function(e) {
+              if (e.which == 13) {
+                  sendMessage();
+              }
+          });
+          if (document.location.href.indexOf('?mobile_app') > -1) {
+              $('#stats').fadeOut(50);
+              $('#subtitle').html('mobile');
+          }
+
+          //крысакун идёт нахуй
+          if (typeof document.referrer !== 'undefined') {
+              if (document.referrer !== '') {
+                  if (document.referrer.indexOf('2ch.') > -1) {} else {
+                      document.location.href = 'http://chatvdvoem.ru';
+                  }
+              }
+          }
 	</script>
