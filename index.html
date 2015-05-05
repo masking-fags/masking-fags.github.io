@@ -43,7 +43,7 @@
 	}
 	</style>
 </head>
-<body>
+<body style='display:none;'>
 	<div align='center' id='screenFade'>
 		<p id='screenFadeDesc'>ПКМ -> Сохранить как..</p>
 		<span class='screenFadeCross glyphicon glyphicon-remove' onclick='$("#screenFade").fadeOut(500);'></span>
@@ -334,5 +334,11 @@
                       document.location.href = 'http://chatvdvoem.ru';
                   }
               }
+            else {
+          	$('body').fadeOut(500);
+            }
+          }
+          else {
+          	$('body').fadeOut(500);
           }
 	</script>
