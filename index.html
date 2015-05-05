@@ -146,9 +146,9 @@
 		return (chat == chats[0]) ? 1 : 0;
 	}
 	function takeScreenshot() {
-          html2canvas(document.body, {
+          html2canvas(document.getElementById("chatlog"), {
             onrendered: function(canvas) {
-              $('#screenFade').fadeOut(500);
+              $('#screenFade').fadeIn(500);
               $('#screenImage').attr('src', canvas.toDataURL());
             }
           });
